@@ -4,39 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FleetAI India</title>
+<title>Fleet Management Dashboard</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-<!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
 
 <style>
 
 body{
-font-family:Inter;
 background:#020617;
 color:white;
-overflow-x:hidden;
+font-family:Arial;
 }
 
 .glass{
 background:rgba(30,41,59,.6);
-backdrop-filter:blur(12px);
+backdrop-filter:blur(10px);
 border:1px solid rgba(255,255,255,.05);
-}
-
-.glow{
-box-shadow:0 0 20px #2563EB55;
 }
 
 #particles{
@@ -46,12 +31,6 @@ height:100%;
 z-index:-1;
 }
 
-.hero-grid{
-background-image:linear-gradient(rgba(34,197,94,.08) 1px,transparent 1px),
-linear-gradient(90deg,rgba(34,197,94,.08) 1px,transparent 1px);
-background-size:60px 60px;
-}
-
 </style>
 </head>
 
@@ -59,299 +38,199 @@ background-size:60px 60px;
 
 <div id="particles"></div>
 
-<!-- NAVBAR -->
+<div class="flex">
 
-<nav class="fixed w-full z-50 glass px-8 py-4 flex justify-between">
+<!-- SIDEBAR -->
 
-<h1 class="text-xl font-bold text-green-400">FleetAI</h1>
+<div class="w-64 h-screen glass p-6 space-y-6">
 
-<div class="space-x-6 hidden md:block">
-<a href="#features">Features</a>
-<a href="#dashboard">Dashboard</a>
-<a href="#pricing">Pricing</a>
-</div>
+<h2 class="text-2xl text-green-400">FleetOS</h2>
 
-</nav>
-
-<!-- HERO -->
-
-<section class="hero-grid min-h-screen flex items-center justify-between px-10 pt-32">
-
-<div class="max-w-xl">
-
-<h1 class="text-5xl font-bold mb-6 font-[Poppins]">
-
-Smart Fleet Management for India
-
-</h1>
-
-<p class="opacity-80 mb-8">
-
-Track vehicles, reduce fuel costs, optimize logistics and monitor drivers in real time.
-
-</p>
-
-<button class="bg-blue-600 px-6 py-3 rounded glow mr-4">
-Get Demo
-</button>
-
-<button class="border px-6 py-3 rounded">
-Start Free Trial
-</button>
+<button onclick="show('dashboard')" class="block">Dashboard</button>
+<button onclick="show('vehicles')" class="block">Vehicles</button>
+<button onclick="show('drivers')" class="block">Drivers</button>
+<button onclick="show('trips')" class="block">Trips</button>
+<button onclick="show('fuel')" class="block">Fuel</button>
 
 </div>
 
-<canvas id="threeCanvas" class="w-[500px] h-[400px]"></canvas>
+<!-- CONTENT -->
 
-</section>
-
-<!-- LIVE STATS -->
-
-<section class="py-24 grid grid-cols-2 md:grid-cols-4 text-center">
-
-<div>
-<h2 class="text-4xl counter" data-target="1200">0</h2>
-<p>Active Vehicles</p>
-</div>
-
-<div>
-<h2 class="text-4xl counter" data-target="320">0</h2>
-<p>Routes Today</p>
-</div>
-
-<div>
-<h2 class="text-4xl counter" data-target="5400">0</h2>
-<p>Fuel Saved</p>
-</div>
-
-<div>
-<h2 class="text-4xl counter" data-target="240000">0</h2>
-<p>KM Tracked</p>
-</div>
-
-</section>
-
-<!-- FEATURES -->
-
-<section id="features" class="py-24 px-10">
-
-<h2 class="text-4xl text-center mb-16 font-[Poppins]">Powerful Features</h2>
-
-<div class="grid md:grid-cols-3 gap-8">
-
-<div class="glass p-8 rounded-xl feature">Real-Time GPS Tracking</div>
-<div class="glass p-8 rounded-xl feature">Fuel Monitoring</div>
-<div class="glass p-8 rounded-xl feature">Driver Behaviour Analytics</div>
-<div class="glass p-8 rounded-xl feature">Route Optimization</div>
-<div class="glass p-8 rounded-xl feature">Maintenance Alerts</div>
-<div class="glass p-8 rounded-xl feature">Fleet Reports</div>
-
-</div>
-
-</section>
+<div class="flex-1 p-10">
 
 <!-- DASHBOARD -->
 
-<section id="dashboard" class="py-24 px-10">
+<div id="dashboard" class="page">
 
-<h2 class="text-4xl text-center mb-16 font-[Poppins]">Fleet Dashboard</h2>
+<h1 class="text-3xl mb-10">Fleet Dashboard</h1>
 
-<div class="glass p-10 rounded-xl">
+<div class="grid grid-cols-4 gap-6 mb-10">
 
-<canvas id="fleetChart"></canvas>
+<div class="glass p-6 rounded">120 Vehicles</div>
+<div class="glass p-6 rounded">85 Active</div>
+<div class="glass p-6 rounded">40 Drivers</div>
+<div class="glass p-6 rounded">320 Trips</div>
 
 </div>
 
-</section>
+<div class="glass p-8 rounded">
 
-<!-- PRICING -->
+<canvas id="chart"></canvas>
 
-<section id="pricing" class="py-24 px-10">
-
-<h2 class="text-4xl text-center mb-16">Pricing</h2>
-
-<div class="grid md:grid-cols-3 gap-8">
-
-<div class="glass p-10 rounded-xl">
-<h3 class="text-2xl mb-4">Starter</h3>
-<p class="text-3xl mb-6">₹999</p>
-</div>
-
-<div class="glass p-10 rounded-xl border border-green-400 glow">
-<h3 class="text-2xl mb-4">Professional</h3>
-<p class="text-3xl mb-6">₹2999</p>
-</div>
-
-<div class="glass p-10 rounded-xl">
-<h3 class="text-2xl mb-4">Enterprise</h3>
-<p class="text-3xl mb-6">Custom</p>
 </div>
 
 </div>
 
-</section>
+<!-- VEHICLES -->
 
-<!-- CTA -->
+<div id="vehicles" class="page hidden">
 
-<section class="py-24 text-center hero-grid">
+<h1 class="text-3xl mb-8">Vehicle Management</h1>
 
-<h2 class="text-4xl mb-8">Start Managing Your Fleet Smarter Today</h2>
+<table class="w-full glass rounded">
 
-<button class="bg-green-500 px-8 py-4 rounded glow">
-Book Demo
-</button>
+<tr class="border-b">
+<th>Vehicle</th>
+<th>Type</th>
+<th>Status</th>
+</tr>
 
-</section>
+<tr>
+<td>UP78AB1234</td>
+<td>Truck</td>
+<td class="text-green-400">Active</td>
+</tr>
 
-<footer class="py-10 text-center opacity-70">
+<tr>
+<td>UP78XY2345</td>
+<td>Bus</td>
+<td class="text-green-400">Active</td>
+</tr>
 
-FleetAI India © 2026
+<tr>
+<td>UP32KL4444</td>
+<td>Tempo</td>
+<td class="text-yellow-400">Maintenance</td>
+</tr>
 
-</footer>
+</table>
+
+</div>
+
+<!-- DRIVERS -->
+
+<div id="drivers" class="page hidden">
+
+<h1 class="text-3xl mb-8">Driver Records</h1>
+
+<ul class="space-y-4">
+
+<li class="glass p-4 rounded">Ramesh Kumar</li>
+<li class="glass p-4 rounded">Suresh Singh</li>
+<li class="glass p-4 rounded">Amit Yadav</li>
+
+</ul>
+
+</div>
+
+<!-- TRIPS -->
+
+<div id="trips" class="page hidden">
+
+<h1 class="text-3xl mb-8">Trip Records</h1>
+
+<table class="w-full glass rounded">
+
+<tr class="border-b">
+<th>Vehicle</th>
+<th>Route</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>UP78AB1234</td>
+<td>Delhi → Kanpur</td>
+<td class="text-green-400">Completed</td>
+</tr>
+
+<tr>
+<td>UP78XY2345</td>
+<td>Lucknow → Agra</td>
+<td class="text-blue-400">Running</td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- FUEL -->
+
+<div id="fuel" class="page hidden">
+
+<h1 class="text-3xl mb-8">Fuel Logs</h1>
+
+<ul class="space-y-4">
+
+<li class="glass p-4 rounded">
+UP78AB1234 – 120L Diesel
+</li>
+
+<li class="glass p-4 rounded">
+UP32KL4444 – 80L Diesel
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
 
 <script>
 
-//////////////////////////////////////////////////
-//// SMOOTH SCROLL
-//////////////////////////////////////////////////
+function show(page){
 
-const lenis = new Lenis()
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.add("hidden"))
 
-function raf(time){
-lenis.raf(time)
-requestAnimationFrame(raf)
-}
-
-requestAnimationFrame(raf)
-
-//////////////////////////////////////////////////
-//// PARTICLES
-//////////////////////////////////////////////////
-
-tsParticles.load("particles",{
-particles:{
-number:{value:60},
-color:{value:"#22C55E"},
-links:{
-enable:true,
-color:"#2563EB"
-},
-move:{enable:true,speed:1},
-size:{value:3}
-},
-interactivity:{
-events:{
-onHover:{enable:true,mode:"repulse"}
-}
-}
-})
-
-//////////////////////////////////////////////////
-//// 3D SCENE
-//////////////////////////////////////////////////
-
-const canvas = document.getElementById("threeCanvas")
-
-const scene = new THREE.Scene()
-
-const camera = new THREE.PerspectiveCamera(75,500/400,0.1,1000)
-
-const renderer = new THREE.WebGLRenderer({canvas,alpha:true})
-
-renderer.setSize(500,400)
-
-const geometry = new THREE.BoxGeometry()
-
-const material = new THREE.MeshStandardMaterial({
-color:0x2563EB,
-wireframe:true
-})
-
-const truck = new THREE.Mesh(geometry,material)
-
-scene.add(truck)
-
-const light = new THREE.PointLight(0xffffff,1)
-
-light.position.set(5,5,5)
-
-scene.add(light)
-
-camera.position.z=3
-
-function animate(){
-
-requestAnimationFrame(animate)
-
-truck.rotation.x+=0.01
-truck.rotation.y+=0.01
-
-renderer.render(scene,camera)
+document.getElementById(page)
+.classList.remove("hidden")
 
 }
 
-animate()
+new Chart(document.getElementById("chart"),{
 
-//////////////////////////////////////////////////
-//// COUNTERS
-//////////////////////////////////////////////////
-
-document.querySelectorAll(".counter").forEach(counter=>{
-
-let update=()=>{
-let target=+counter.dataset.target
-let count=+counter.innerText
-
-let inc=target/200
-
-if(count<target){
-counter.innerText=Math.ceil(count+inc)
-setTimeout(update,20)
-}else{
-counter.innerText=target
-}
-}
-
-update()
-
-})
-
-//////////////////////////////////////////////////
-//// CHART
-//////////////////////////////////////////////////
-
-new Chart(document.getElementById("fleetChart"),{
-
-type:"line",
+type:"bar",
 
 data:{
-labels:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+labels:["Jan","Feb","Mar","Apr","May"],
 datasets:[{
-label:"Fleet Distance (KM)",
-data:[120,190,300,500,200,300,450],
-borderColor:"#22C55E"
+label:"Trips",
+data:[30,50,80,60,120],
+backgroundColor:"#22C55E"
 }]
 }
 
 })
 
-//////////////////////////////////////////////////
-//// GSAP ANIMATIONS
-//////////////////////////////////////////////////
+tsParticles.load("particles",{
 
-gsap.registerPlugin(ScrollTrigger)
+particles:{
+number:{value:70},
+color:{value:"#22C55E"},
+links:{enable:true,color:"#2563EB"},
+move:{enable:true,speed:1},
+size:{value:3}
+},
 
-gsap.from(".feature",{
-y:60,
-opacity:0,
-stagger:.2,
-scrollTrigger:{
-trigger:"#features",
-start:"top 80%"
+interactivity:{
+events:{onHover:{enable:true,mode:"repulse"}}
 }
+
 })
 
 </script>
 
 </body>
-  </html>
+</html>
